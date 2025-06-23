@@ -21,4 +21,3 @@ EXPOSE 3000
 
 # Запуск приложения в проде
 CMD ["npm", "run", "start:prod"]
-docker volume ls
