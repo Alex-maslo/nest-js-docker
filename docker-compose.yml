@@ -1,17 +1,30 @@
-version: '3.8'
+version: '3.9'
 
 services:
   db:
     image: postgres:15
+    container_name: nest_db
     restart: always
     environment:
-      POSTGRES_USER: testuser
-      POSTGRES_PASSWORD: testpass
-      POSTGRES_DB: testdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nest
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest_api
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - db
 
 volumes:
-  pgdata:
+  db_data:
